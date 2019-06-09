@@ -20,7 +20,7 @@ else:
 
 def deterministic_generate_k(generator_order, secret_exponent, val, hash_f=hashlib.sha256):
     """
-    :param generator_order: result from :method:`pycoin.ecdsa.Generator.Generator.order`,
+    :param generator_order: result from `pycoin.ecdsa.Generator.Generator.order`,
         necessary to ensure the k value is within bound
     :param secret_exponent: an integer secret_exponent to generate the k value for
     :param val: the value to be signed, also used as an entropy source for the k value
@@ -37,7 +37,7 @@ def deterministic_generate_k(generator_order, secret_exponent, val, hash_f=hashl
     shift = 8 * hash_size - bln
     if shift > 0:
         val >>= shift
-    if val > n:
+    if val >= n:
         val -= n
     h1 = intstream.to_bytes(val, length=order_size)
     k = hmac.new(k, v + b'\x00' + priv + h1, hash_f).digest()

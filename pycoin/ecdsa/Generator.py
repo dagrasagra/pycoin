@@ -63,8 +63,7 @@ class Generator(Curve, Point):
         :return: (p0, p1) where each p is a :class:`Point` with given x coordinate,
             and p0's y value is even.
 
-        To get a point with particular parity, use
-        ::
+        To get a point with particular parity, use::
             points_for_x(x)[1 if is_y_supposed_to_be_odd else 0]
         """
         p = self._p
@@ -146,6 +145,8 @@ class Generator(Curve, Point):
             of ``val`` using ``public_pair`` public key.
         """
         order = self._order
+        if val == 0:
+            return False
         r, s = sig
         if r < 1 or r >= order or s < 1 or s >= order:
             return False
@@ -171,6 +172,8 @@ class Generator(Curve, Point):
         K value should be returned. Otherwise, the default K value, generated according
         to rfc6979 will be used.
         """
+        if val == 0:
+            raise ValueError()
         if gen_k is None:
             gen_k = deterministic_generate_k
         n = self._order
